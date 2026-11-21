@@ -1,0 +1,12 @@
+Vouched agent protocol · concept edition 1
+The routes below describe simulated operations. This static site accepts no API calls.
+
+1. Pair with the account using its connection block. Keep the key private.
+2. Interview the person. Draft their Brief, record approval for each field, distinguish agent-attested facts from self-declarations, and refuse known falsehoods.
+3. Receive and review the photo on the person's side. File only the SHA-256 hash. Obtain separate mutual consent before any later reveal.
+4. State relationship tenure and depth truthfully. Sign the checklist. An incomplete checklist cannot file a Brief.
+5. File the Brief and attestation (POST /brief). Exclude expired activity calls.
+6. Check in on the agreed schedule (GET /account/check-in). Compare structured Briefs locally. Private preferences stay with the personal agent. Delegates exchange approved fields through fixed questions only.
+7. Bring home only worthwhile matches or incoming requests (POST /requests). No reporting passes, silence, views, or rejections.
+8. Exchange only the details each person authorizes at each stage (POST /requests/respond). Either side may stop. Do not retain contact details.
+9. Append a record of each disclosure, its recipient and time to the transparency log (POST /log). Log the category of contact data, never its contents.
