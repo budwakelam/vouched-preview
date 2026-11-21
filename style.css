@@ -3,3 +3,17 @@
 #connect-block{white-space:pre-wrap;text-align:left;max-width:840px}
 #acct-result{margin-top:30px}
 #acct-result .steps{margin-top:26px}
+
+#profile .paper{max-width:520px;margin:22px 0}
+.slider{margin:20px 0;max-width:640px}
+.slider-head{display:flex;justify-content:space-between;gap:10px;font-size:13px;color:#585850}
+.slider-head strong{color:#1E1B16;font-size:14px;text-align:center}
+.slider input[type=range]{width:100%;padding:0;border:0;background:transparent;accent-color:#C96F4A}
+.slider-pref{font-size:13px;font-weight:600}
+.slider-pref select{width:auto;padding:6px;margin-left:6px}
+.slider-title{margin-top:34px}
+.slider-note{font-size:13px;color:#585850}
+.reveal{margin-top:34px;max-width:640px;background:#ede8da;padding:18px;border-radius:8px}
+.reveal .locked{color:#585850;margin:0}
+.adslot{margin-top:26px;max-width:640px;border:1.5px dashed #ada99f;border-radius:8px;padding:16px;text-align:center;font-weight:700;letter-spacing:.08em;text-transform:uppercase;font-size:13px;color:#585850}
+.adslot span{display:block;margin-top:6px;font-weight:400;letter-spacing:0;text-transform:none;font-size:13px}

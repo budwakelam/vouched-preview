@@ -88,3 +88,48 @@ byId('erase').onclick = () => { editor.reset(); clearPublication(); };
     });
   });
 })();
+
+/* ---- Profile page: agent-preset sliders the human dials in ---- */
+(function () {
+  var TRAITS = [
+    { k: 'energy', name: 'Social energy', lo: 'Quiet and reserved', hi: 'Loud and boisterous', v: 45 },
+    { k: 'talk', name: 'Talkativeness in a group', lo: 'Mostly listens', hi: 'Talks the most', v: 30 },
+    { k: 'battery', name: 'Social battery', lo: 'Drained by people', hi: 'Recharged by people', v: 55 },
+    { k: 'spont', name: 'Spontaneity', lo: 'Plans ahead', hi: 'Last-minute, let\'s go', v: 60 },
+    { k: 'outin', name: 'Out vs in', lo: 'Home is the venue', hi: 'Out on the town', v: 40 },
+    { k: 'group', name: 'Group size', lo: 'One-on-one', hi: 'The more the merrier', v: 25 }
+  ];
+  function load(k) { try { return JSON.parse(localStorage.getItem(k)); } catch (e) { return null; } }
+  function save(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+  var acctForm = document.getElementById('acct-form');
+  if (acctForm) acctForm.addEventListener('submit', function () {
+    var data = new FormData(acctForm);
+    setTimeout(function () {
+      var idEl = document.getElementById('acct-id');
+      save('vouched_account', { alias: (data.get('alias') || '').toString(), id: idEl ? idEl.textContent : '', key: document.getElementById('acct-key').textContent });
+      renderProfile();
+    }, 0);
+  });
+  function renderProfile() {
+    var acct = load('vouched_account');
+    var empty = document.getElementById('profile-empty'), body = document.getElementById('profile-body');
+    if (!acct || !body) return;
+    empty.hidden = true; body.hidden = false;
+    document.getElementById('p-alias').textContent = acct.alias || 'Your alias';
+    var saved = load('vouched_sliders') || {};
+    var wrap = document.getElementById('sliders');
+    wrap.innerHTML = '';
+    TRAITS.forEach(function (t) {
+      var cur = saved[t.k] || { v: t.v, pref: 'Either' };
+      var div = document.createElement('div'); div.className = 'slider';
+      div.innerHTML = '<div class="slider-head"><span>' + t.lo + '</span><strong>' + t.name + '</strong><span>' + t.hi + '</span></div>' +
+        '<input type="range" min="0" max="100" value="' + cur.v + '" aria-label="' + t.name + '">' +
+        '<div class="slider-pref">Who fits me:<select><option' + (cur.pref === 'Either' ? ' selected' : '') + '>Either</option><option' + (cur.pref === 'Match me' ? ' selected' : '') + '>Match me</option><option' + (cur.pref === 'Balance me' ? ' selected' : '') + '>Balance me</option></select></div>';
+      var range = div.querySelector('input'), sel = div.querySelector('select');
+      function upd() { var s = load('vouched_sliders') || {}; s[t.k] = { v: Number(range.value), pref: sel.value }; save('vouched_sliders', s); }
+      range.addEventListener('input', upd); sel.addEventListener('change', upd);
+      wrap.appendChild(div);
+    });
+  }
+  renderProfile();
+})();
