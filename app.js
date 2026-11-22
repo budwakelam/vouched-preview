@@ -9,6 +9,19 @@ for (const person of [sample, requester]) {
   person.attestation = {region:'self-declared', age:'self-declared', values:'self-declared',
     interests:'agent-attested', open:'self-declared'};
 }
+const introductionCards = new Map([
+  ['cedar', {
+    person: {alias: 'Cedar Atlas', region: 'Greater Victoria', age: '35–44',
+      values: 'Kindness, curiosity', interests: 'Bike rides and cooking on quiet evenings',
+      open: ['Friendship', 'Activity partners'], vouch: 'known 18 months, weekly conversations',
+      attestation: sample.attestation},
+    reason: 'Both agents saw a fit for an easy weekend ride and a shared interest in cooking.',
+  }],
+  ['alder', {person: sample, reason: 'Your agents found shared interests in cycling and getting outside.'}],
+  ['harbour', {person: requester, reason: 'Your agents cleared a request to meet for a walk.'}],
+]);
+const introductionResponses = new Map();
+let currentIntroduction;
 let brief, photoUrl, photoFile, generation = 0;
 const samplePhoto = 'mockups/assets/portrait-woman-cap.jpg';
 const interviewInterests = 'Bike rides and cooking on quiet evenings';
@@ -71,10 +84,29 @@ read it.`
     .replace('[PROTOCOL URL]', new URL('protocol.txt', location.href).href);
   show('block',0);
 };
-el('copy').onclick = async () => {
-  try { await navigator.clipboard.writeText(el('instructions').textContent); el('copied').textContent='Copied.'; }
-  catch { const range=document.createRange(); range.selectNodeContents(el('instructions')); const selection=getSelection(); selection.removeAllRanges(); selection.addRange(range); el('copied').textContent=document.execCommand('copy')?'Copied.':'Text selected. Use your device’s copy command.'; }
-};
+async function copyText(value, fallback, status) {
+  try {
+    await navigator.clipboard.writeText(value);
+    status.textContent = 'Copied.';
+  } catch {
+    if (fallback instanceof HTMLInputElement) {
+      fallback.select();
+    } else {
+      const range = document.createRange();
+      range.selectNodeContents(fallback);
+      const selection = getSelection();
+      selection.removeAllRanges();
+      selection.addRange(range);
+    }
+    status.textContent = document.execCommand('copy') ? 'Copied.' : 'Text selected. Use your device’s copy command.';
+  }
+}
+
+el('copy').onclick = () => copyText(el('instructions').textContent, el('instructions'), el('copied'));
+const outgoingUrl = el('outgoing-url');
+outgoingUrl.value = el('preview-outgoing').href;
+el('copy-outgoing').onclick = () => copyText(outgoingUrl.value, outgoingUrl, el('outgoing-status'));
+
 el('begin').onclick=()=>show('agent',1);
 function complete(index) { steps[index].textContent='✓ '+steps[index].textContent; }
 const traitDefinitions = [
@@ -126,7 +158,7 @@ function directory() {
   for (const id of ['feed', 'profile-feed']) el(id).textContent = JSON.stringify(entries, null, 2);
 }
 
-function appendBrief(container, person) {
+function appendBrief(container, person, includeName = true) {
   const name = document.createElement('h3');
   name.textContent = person.alias;
   const badge = document.createElement('p');
@@ -146,7 +178,7 @@ function appendBrief(container, person) {
     value.append((Array.isArray(person[key]) ? person[key].join(', ') || 'Paused' : person[key]) + ' ', mark);
     fields.append(term, value);
   }
-  container.replaceChildren(name, badge, fields);
+  container.replaceChildren(...(includeName ? [name] : []), badge, fields);
 }
 
 function renderProfile() {
@@ -154,16 +186,55 @@ function renderProfile() {
   el('review').querySelector('fieldset').innerHTML = '<legend>Open to</legend>' +
     intents.map(intent => `<label><input type="checkbox" name="open" value="${intent}"${brief.open.includes(intent) ? ' checked' : ''}> ${intent}</label>`).join('');
   writeTraits(el('profile-traits'), brief.traits);
+  el('outgoing-card').hidden = !resultsReady;
   el('intro-status').textContent = resultsReady ? 'Your agent brings you introductions both agents have cleared.'
     : 'Your agent will bring cleared introductions here.';
 }
 
+function renderIntroduction() {
+  const {person, reason} = introductionCards.get(currentIntroduction);
+  const response = introductionResponses.get(currentIntroduction);
+  const passed = response === 'You passed. The other person is never notified.';
+  el('introduction-title').textContent = passed ? 'Introduction closed' : person.alias;
+  el('introduction-reason').textContent = reason;
+  el('introduction-reason').hidden = passed;
+  el('introduction-brief').hidden = passed;
+  appendBrief(el('introduction-brief'), person, false);
+  el('introduction-actions').hidden = Boolean(response);
+  el('introduction-actions').previousElementSibling.hidden = Boolean(response);
+  el('introduction-status').textContent = response || '';
+}
+
+function respondToIntroduction(message) {
+  introductionResponses.set(currentIntroduction, message);
+  renderIntroduction();
+  el('introduction-status').focus();
+}
+
+el('request-contact').onclick = () => respondToIntroduction(
+  'Your agent received your request in this demo. Both people still need to approve before contact details can be shared.');
+el('request-info').onclick = () => respondToIntroduction(
+  'Your agent received your request for more information in this demo. The other person decides what to share.');
+el('pass-introduction').onclick = () => respondToIntroduction(
+  'You passed. The other person is never notified.');
+
 function route() {
+  const introId = location.hash.startsWith('#introduction/') ? location.hash.slice(14) : null;
+  currentIntroduction = introductionCards.has(introId) ? introId : null;
   const profileView = location.hash === '#profile' && Boolean(brief?.photo_hash);
   document.body.classList.toggle('profile-view', profileView);
+  document.body.classList.toggle('introduction-view', Boolean(currentIntroduction));
   el('profile').hidden = !profileView;
-  if (profileView) {
-    window.scrollTo(0, 0);
+  el('introduction').hidden = !currentIntroduction;
+  if (currentIntroduction) {
+    const back = el('introduction-back');
+    back.href = brief?.photo_hash ? '#profile' : '#demo';
+    back.textContent = brief?.photo_hash ? '← Back to your profile' : '← Try the Vouched demo';
+    renderIntroduction();
+    window.scrollTo({top: 0, behavior: 'instant'});
+    el('introduction-title').focus({preventScroll: true});
+  } else if (profileView) {
+    window.scrollTo({top: 0, behavior: 'instant'});
     el('profile-title').focus({preventScroll:true});
   } else if (location.hash) {
     el(location.hash.slice(1))?.scrollIntoView();
@@ -317,6 +388,13 @@ function offer(person, kind, proposal) {
     el('notice').textContent = 'The other person never hears about a pass.';
   };
   actions.append(approve, pass);
+  if (kind !== 'proposal') {
+    const link = document.createElement('a');
+    link.className = 'quiet';
+    link.href = '#introduction/' + (person === sample ? 'alder' : 'harbour');
+    link.textContent = 'Open introduction card';
+    actions.append(link);
+  }
   card.append(title, profile, description, actions);
   el('offers').append(card);
 }

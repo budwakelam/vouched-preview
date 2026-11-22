@@ -155,3 +155,34 @@ body.profile-view main>section:not(.profile),body.profile-view .trust,body.profi
   .bubble{transform:none!important}
   .agent-link-pulse{animation:none}
 }
+body.introduction-view main>section:not(.introduction),
+body.introduction-view .trust,
+body.introduction-view .intent-strip,
+body.introduction-view footer{display:none}
+.introduction{max-width:1000px}
+.introduction-layout{
+  display:grid;
+  grid-template-columns:minmax(0,2.65fr) minmax(180px,1fr);
+  align-items:start;
+  gap:1rem;
+  margin-top:1rem;
+}
+.introduction-card{border-top:5px solid var(--violet)}
+.introduction-card dl{
+  display:grid;
+  grid-template-columns:minmax(105px,.8fr) minmax(0,2fr);
+  column-gap:1rem;
+  row-gap:.6rem;
+  margin-top:1rem;
+}
+.introduction-card dd{margin:0}
+.intro-response{border-top:1px solid var(--line);margin-top:1.15rem;padding-top:1rem}
+.intro-response p:empty,#outgoing-status:empty{display:none}
+.intro-response .actions{gap:.55rem}
+.introduction-ad{background:var(--wash);padding:1.35rem;text-align:left}
+.introduction-ad .kicker{margin-bottom:.75rem}
+@media(max-width:650px){
+  .introduction-layout{grid-template-columns:1fr}
+  .introduction-card dl{grid-template-columns:1fr;row-gap:.3rem}
+  .introduction-card dd{margin-bottom:.55rem}
+}
