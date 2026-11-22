@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="88 40 1116 1116">
+  <defs>
+    <linearGradient id="spark" x1="0" y1="0.22" x2="1" y2=".78" gradientUnits="objectBoundingBox">
+      <stop stop-color="#7800db"/><stop offset=".32" stop-color="#9512fa"/><stop offset=".7" stop-color="#0077fa"/><stop offset="1" stop-color="#0042cb"/>
+    </linearGradient>
+    <linearGradient id="purple" x1="0" y1="0" x2=".7" y2="1">
+      <stop stop-color="#bc27fd"/><stop offset=".52" stop-color="#821af1"/><stop offset="1" stop-color="#4010ad"/>
+    </linearGradient>
+    <linearGradient id="blue" x1=".17" y1="0" x2=".8" y2="1">
+      <stop stop-color="#00d6ef"/><stop offset=".45" stop-color="#009def"/><stop offset="1" stop-color="#0048d2"/>
+    </linearGradient>
+    <linearGradient id="shoulders" x1=".05" y1=".35" x2=".96" y2=".63">
+      <stop stop-color="#8713eb"/><stop offset=".3" stop-color="#7927ee"/><stop offset=".53" stop-color="#3044d8"/><stop offset=".8" stop-color="#008ef4"/><stop offset="1" stop-color="#0073ef"/>
+    </linearGradient>
+    <linearGradient id="shade" x2=".05" y2="1">
+      <stop offset=".35" stop-color="#25118d" stop-opacity="0"/><stop offset="1" stop-color="#171380" stop-opacity=".46"/>
+    </linearGradient>
+    <path id="body" d="M109 1102C133 968 254 853 386 853c109 0 200 59 256 140 61-84 145-140 256-140 133 0 253 108 280 249 2 9-1 13-11 13-212-17-330-1-441 27-52 14-108 17-161 3-134-32-258-41-448-31-9 1-11-3-8-12Z"/>
+    <path id="outer" d="M637 64q8-22 16 0c63 267 135 338 353 390q22 5 0 13c-218 55-296 132-354 386q-7 26-14 0C581 602 497 519 284 469q-22-7 0-15c211-52 295-125 353-390Z"/>
+    <path id="star" d="M645 274c28 126 58 157 177 184-119 27-150 59-178 173-27-114-59-146-177-172 119-30 151-61 178-185Z"/>
+    <clipPath id="inside"><use href="#outer"/></clipPath>
+    <filter id="glow" x="-.5" y="-.5" width="2" height="2"><feGaussianBlur stdDeviation="28"/></filter>
+  </defs>
+  <use href="#outer" fill="url(#spark)"/>
+  <g clip-path="url(#inside)"><use href="#star" fill="white" stroke="white" stroke-width="24" filter="url(#glow)"/></g>
+  <use href="#star" fill="#fff"/>
+  <circle cx="387" cy="709" r="145" fill="url(#purple)"/>
+  <circle cx="900" cy="709" r="145" fill="url(#blue)"/>
+  <use href="#body" fill="url(#shoulders)"/><use href="#body" fill="url(#shade)"/>
+</svg>

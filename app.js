@@ -23,7 +23,7 @@ const introductionCards = new Map([
 const introductionResponses = new Map();
 let currentIntroduction;
 let brief, photoUrl, photoFile, generation = 0;
-const samplePhoto = 'mockups/assets/portrait-woman-cap.jpg';
+const samplePhoto = 'media/portrait-woman-cap.webp';
 const interviewInterests = 'Bike rides and cooking on quiet evenings';
 const intents = ['Dating', 'Friendship', 'Activity partners'];
 let resultsReady = false;

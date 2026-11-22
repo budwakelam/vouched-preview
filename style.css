@@ -24,7 +24,6 @@ header{background:#f6f0ff;border-bottom:1px solid var(--line)}
 .bar{min-height:72px;justify-content:space-between;padding-block:.6rem}
 nav{gap:clamp(.65rem,2.4vw,2rem);font-size:.88rem;font-weight:650}
 .brand{font-size:1.5rem;font-weight:850;letter-spacing:-.05em}
-.brand span{color:var(--violet);font-size:2.55rem;vertical-align:middle;line-height:.7;margin-right:.22rem}
 .button,button{display:inline-flex;align-items:center;justify-content:center;gap:.65em;border:1px solid transparent;border-radius:100px;background:var(--violet);padding:.66rem 1.25rem;color:white;font-weight:750;cursor:pointer;text-align:center;line-height:1.35}
 .button:hover,button:hover{background:#4e18b6;text-decoration:none}
 .secondary{background:#fff;color:var(--ink);border-color:#ab8cde}
@@ -118,12 +117,8 @@ details{border-top:1px solid var(--line);padding:.65rem 0}
 summary{cursor:pointer;font-weight:750}
 .profile{max-width:950px}
 .profile>*{margin-bottom:1rem}
-.profile form,.ad{border:1px solid var(--line);border-radius:20px;padding:1rem;background:white}
-.ad{color:var(--copy);font-size:.85rem;text-align:center;border-style:dashed}
-.ad p{margin:0}
+.profile form{border:1px solid var(--line);border-radius:20px;padding:1rem;background:white}
 .offer .actions{margin-top:.9rem}
-footer{background:#ece2ff url(mockups/assets/footer-mountains.jpg) center 52%/cover no-repeat;padding:clamp(3rem,8vw,8rem) 0;text-align:center}
-.footer-inner{width:min(550px,calc(100% - 3rem));background:#fcf9fff2;border:1px solid white;border-radius:24px;padding:1.45rem}
 body.profile-view main>section:not(.profile),body.profile-view .trust,body.profile-view .intent-strip{display:none}
 @media(max-width:850px){
   .category-grid,.steps{grid-template-columns:repeat(2,minmax(0,1fr))}
@@ -157,16 +152,9 @@ body.profile-view main>section:not(.profile),body.profile-view .trust,body.profi
 }
 body.introduction-view main>section:not(.introduction),
 body.introduction-view .trust,
-body.introduction-view .intent-strip,
-body.introduction-view footer{display:none}
+body.introduction-view .intent-strip{display:none}
 .introduction{max-width:1000px}
-.introduction-layout{
-  display:grid;
-  grid-template-columns:minmax(0,2.65fr) minmax(180px,1fr);
-  align-items:start;
-  gap:1rem;
-  margin-top:1rem;
-}
+.introduction-layout{max-width:52rem;margin-top:1rem}
 .introduction-card{border-top:5px solid var(--violet)}
 .introduction-card dl{
   display:grid;
@@ -179,10 +167,7 @@ body.introduction-view footer{display:none}
 .intro-response{border-top:1px solid var(--line);margin-top:1.15rem;padding-top:1rem}
 .intro-response p:empty,#outgoing-status:empty{display:none}
 .intro-response .actions{gap:.55rem}
-.introduction-ad{background:var(--wash);padding:1.35rem;text-align:left}
-.introduction-ad .kicker{margin-bottom:.75rem}
 @media(max-width:650px){
-  .introduction-layout{grid-template-columns:1fr}
   .introduction-card dl{grid-template-columns:1fr;row-gap:.3rem}
   .introduction-card dd{margin-bottom:.55rem}
 }
