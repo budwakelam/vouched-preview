@@ -364,25 +364,35 @@ const hero = document.querySelector('.hero');
 const bubbles = [...hero.querySelectorAll('.bubble')];
 let pointerX = 0;
 let pointerY = 0;
+let followX = 0;
+let followY = 0;
+let lastFrame;
 let frame;
 hero.addEventListener('pointermove', event => {
+  if (event.pointerType === 'touch') return;
   const bounds = hero.getBoundingClientRect();
   pointerX = (event.clientX - bounds.left) / bounds.width - .5;
   pointerY = (event.clientY - bounds.top) / bounds.height - .5;
 });
 hero.addEventListener('pointerleave', () => { pointerX = 0; pointerY = 0; });
 function drift(now) {
+  const ease = 1 - Math.exp(-Math.min(now - (lastFrame ?? now), 50) / 220);
+  lastFrame = now;
+  followX += (pointerX - followX) * ease;
+  followY += (pointerY - followY) * ease;
+  const travel = hero.clientWidth > 700 ? 1 : .5;
   bubbles.forEach((bubble, index) => {
     const depth = Number(bubble.dataset.depth);
-    const phase = now / (1350 + index * 420) + index * 2;
-    const x = (Math.cos(phase) * 5 + pointerX * 15) * depth;
-    const y = (Math.sin(phase) * 9 + pointerY * 12) * depth;
+    const phase = now / (2300 + index * 560) + index * 2;
+    const x = (Math.cos(phase) * 18 + followX * 52) * depth * travel;
+    const y = (Math.sin(phase) * 10 + followY * 14) * depth * travel;
     bubble.style.transform = `translate3d(${x}px, ${y}px, 0)`;
   });
   frame = requestAnimationFrame(drift);
 }
 function syncMotion() {
   cancelAnimationFrame(frame);
+  lastFrame = undefined;
   if (reduceMotion.matches) bubbles.forEach(bubble => { bubble.style.transform = ''; });
   else frame = requestAnimationFrame(drift);
 }

@@ -34,7 +34,7 @@ button:disabled{opacity:.55;cursor:wait}
 .kicker{font-size:.76rem;text-transform:uppercase;font-weight:800;letter-spacing:.14em;color:#6629cf;margin-bottom:.8rem}
 .hero{
   position:relative;isolation:isolate;background:#f8ecff;overflow:hidden;
-  min-height:clamp(740px,63vw,1120px);
+  min-height:max(47vw,clamp(740px,63vw,1120px));
 }
 .hero-inner{
   position:relative;z-index:2;pointer-events:none;
@@ -48,18 +48,18 @@ button:disabled{opacity:.55;cursor:wait}
   content:"";position:absolute;inset:0;pointer-events:none;
   background:radial-gradient(ellipse min(54vw,1000px) 64% at 0% 20%,#f8ecff 31%,#f8ecfff2 49%,#f8ecff87 73%,transparent 100%);
 }
-.friends{width:100%;height:100%;object-fit:cover;object-position:center 100%}
+.friends{width:100%;height:100%;object-fit:cover;object-position:center 60%}
 .bubble{position:absolute;aspect-ratio:1;z-index:2;border-radius:50%;padding:4px;border:1px solid #fff;background:#fdf5ff8f;box-shadow:inset 0 0 0 2px #ffffff6b,0 8px 26px #29215a58;pointer-events:none}
 .bubble img{width:100%;height:100%;object-fit:cover;clip-path:circle(50%)}
 .bubble::after{content:"";position:absolute;inset:5%;border-radius:50%;border-top:2px solid #fff9;transform:rotate(-23deg)}
-.bubble-left{width:clamp(76px,9.25vw,160px);left:48%;top:16%}
-.bubble-main{width:clamp(108px,12vw,205px);left:63%;top:12%;z-index:3}
-.bubble-right{width:clamp(68px,8.1vw,138px);left:82%;top:18%}
-.portraits{display:flex;gap:7px;position:absolute;top:3.5%;left:69%;z-index:3;transform:translateX(-50%) rotate(-4deg)}
+.bubble-left{width:clamp(70px,7.4vw,128px);left:51%;top:clamp(92px,8vw,145px)}
+.bubble-main{width:clamp(96px,9.5vw,160px);left:66%;top:clamp(78px,6.5vw,116px);z-index:3}
+.bubble-right{width:clamp(65px,6.5vw,112px);left:83%;top:clamp(105px,9vw,162px)}
+.portraits{display:flex;gap:7px;position:absolute;top:clamp(14px,2.1vw,36px);left:70%;z-index:3;transform:translateX(-50%) rotate(-4deg)}
 .portraits span{position:relative}
 .portraits img{width:clamp(31px,3.3vw,56px);aspect-ratio:1;object-fit:cover;object-position:center 28%;border:2px solid white;border-radius:14px}
 .portraits b{position:absolute;bottom:-4px;right:-3px;background:var(--teal);color:white;border:1px solid white;border-radius:50%;width:1.25rem;height:1.25rem;text-align:center;font-size:.73rem}
-.agent-links{position:absolute;z-index:1;left:45%;top:11%;width:48%;height:22%;overflow:visible;pointer-events:none}
+.agent-links{position:absolute;z-index:1;left:47%;top:clamp(67px,5vw,90px);width:46%;height:clamp(120px,11vw,210px);overflow:visible;pointer-events:none}
 .agent-links use{fill:none;stroke-linecap:round;vector-effect:non-scaling-stroke}
 .agent-link-halo{stroke:#a68aff;stroke-width:9;filter:blur(5px)}
 .agent-link-line{stroke:url(#agent-link-color);stroke-width:1.6;opacity:.78}
